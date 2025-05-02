@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">AlbumList</string>
+    <string name="no_items_to_show">No Items Loaded!</string>
+    <string name="error_fetching_albums">Error: %1$s</string>
+    <string name="lost_network_connection">Lost network connection</string>
+    <string name="unknown_error">Unkown error.</string>
+    <string name="fetch_network_error">Can\'t fetch albums due to connection issues.</string>
+    <string name="nothing_to_fetch">Nothing to fetch.</string>
+    <string name="cache_unknown_error">Loaded from cache. Unknown Error occurred.</string>
+    <string name="empty_body">Empty body: nothing to load.</string>
+    <string name="cache_network_error">Loaded from cache. Network Error occurred.</string>
+    <string name="cache_empty_body_response">Loaded from cache. No new data available.</string>
+</resources>
