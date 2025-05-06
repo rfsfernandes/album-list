@@ -107,15 +107,15 @@ class MainScreenViewModelTest {
 
         viewModel.viewState.test {
             // Skip initial state emission (should be hasNetworkConnection = false)
-            assertFalse(awaitItem().hasNetworkConnection)
+            assertFalse(awaitItem().hasNetworkConnection == false)
 
             // When: emit Available status
             networkStatusFlow.emit(ConnectivityObserver.Status.Available)
-            advanceTimeBy(5.seconds) // Let debounce pass
+            advanceTimeBy(2.seconds) // Let debounce pass
 
             // Then: we expect a new state with hasNetworkConnection = true
             val updated = awaitItem()
-            assertTrue(updated.hasNetworkConnection)
+            assertTrue(updated.hasNetworkConnection == true)
 
             cancelAndIgnoreRemainingEvents()
         }

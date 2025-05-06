@@ -10,4 +10,9 @@
     <string name="empty_body">Empty body: nothing to load.</string>
     <string name="cache_network_error">Loaded from cache. Network Error occurred.</string>
     <string name="cache_empty_body_response">Loaded from cache. No new data available.</string>
+    <string name="accessibility_dismiss_zoom">Dismiss zoom</string>
+    <string name="accessibility_zoomed_image">Zoomed image</string>
+    <string name="accessibility_close_zoom">Close zoom</string>
+    <string name="accessibility_open_album">Open Album</string>
+    <string name="accessibility_album_thumbnail">Album thumbnail</string>
 </resources>

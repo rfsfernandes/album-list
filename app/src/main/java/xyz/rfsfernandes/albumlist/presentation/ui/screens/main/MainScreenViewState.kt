@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import xyz.rfsfernandes.albumlist.presentation.model.AlbumDataModel
 
 data class MainScreenViewState(
-    val hasNetworkConnection: Boolean = false,
+    val hasNetworkConnection: Boolean? = null,
     @StringRes val errorMessage: Int? = null,
     val albums: Flow<PagingData<AlbumDataModel>> = emptyFlow()
 )

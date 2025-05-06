@@ -23,9 +23,11 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // For obfuscation reasons. Probably overkill here but it's my standard practice
-        buildConfigField("String", "DB_NAME", "\"album_list_db\"")
-        buildConfigField("String", "API_ENDPOINT", "\"https://static.leboncoin.fr/\"")
+        // For obfuscation and Supports per-build-type overrides. Standard practice following a clean, configurable, and scalable pattern
+        val dbName = "album_list_db"
+        val apiEndpoint = "https://static.leboncoin.fr/"
+        buildConfigField("String", "DB_NAME", "\"$dbName\"")
+        buildConfigField("String", "API_ENDPOINT", "\"$apiEndpoint\"")
     }
 
     buildTypes {

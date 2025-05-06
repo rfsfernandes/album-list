@@ -10,6 +10,16 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
+/**
+ * Concrete implementation of [ConnectivityObserver] that uses the Android system's
+ * [ConnectivityManager] to observe network connectivity changes.
+ *
+ * This class provides a [Flow] of [ConnectivityObserver.Status] that emits updates whenever
+ * the network connectivity status changes. It monitors the default network and provides
+ * information about whether the network is available, losing, lost, or unavailable.
+ *
+ * @param context The application context, used to access the [ConnectivityManager] system service.
+ */
 @OptIn(ExperimentalCoroutinesApi::class)
 class NetworkConnectivityObserver(
     private val context: Context
@@ -18,8 +28,17 @@ class NetworkConnectivityObserver(
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+    /**
+     * A concrete implementation of [ConnectivityObserver] that uses the Android [ConnectivityManager]
+     * to observe network connectivity changes.
+     */
     override fun observe(): Flow<ConnectivityObserver.Status> {
         return callbackFlow {
+            val isConnected = connectivityManager.activeNetwork != null
+            trySend(
+                if (isConnected) ConnectivityObserver.Status.Available
+                else ConnectivityObserver.Status.Unavailable
+            )
             val callback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     super.onAvailable(network)

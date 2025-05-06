@@ -12,6 +12,11 @@ import xyz.rfsfernandes.albumlist.network.ConnectivityObserver
 import xyz.rfsfernandes.albumlist.network.NetworkManager
 import java.io.File
 
+/**
+ * RetrofitBuilder is a utility class responsible for creating and configuring a Retrofit instance
+ * for network communication. It manages caching, provides offline support, and handles
+ * network status checks.
+ */
 class RetrofitBuilder(
     private val context: Context,
     baseUrl: String,
@@ -22,12 +27,42 @@ class RetrofitBuilder(
     private val isNetworkConnected: Boolean
         get() = networkManager.networkStatus.value == ConnectivityObserver.Status.Available
 
+    /**
+     * Provides an HTTP cache for OkHttp.
+     *
+     * This function creates and configures an [Cache] instance that will be used by OkHttp
+     * to cache HTTP responses. The cache is stored in the application's cache directory
+     * under "http_cache". The maximum size of the cache is set to 10 MB.
+     *
+     * @return A configured [Cache] instance.
+     */
     private fun provideCache(): Cache {
         val cacheSize = 10 * 1024 * 1024L // 10 MB
         val cacheDir = File(context.cacheDir, "http_cache")
         return Cache(cacheDir, cacheSize)
     }
 
+    /**
+     * Provides an OkHttpClient instance configured for network requests with caching and offline support.
+     *
+     * This function sets up an OkHttpClient with the following features:
+     * - **Caching:** Uses a disk cache (provided by [provideCache]) to store HTTP responses.
+     * - **Offline Support:** When the network is unavailable, it serves cached responses (up to 7 days old).
+     * - **Online Caching:** When online, it caches responses for a short duration (1 minute).
+     * - **Logging:** Logs HTTP request and response bodies for debugging purposes.
+     *
+     * The client is configured with two main interceptors:
+     * - **offlineInterceptor:** This interceptor is responsible for handling requests when the device is offline.
+     *   If the network is not connected (checked by [isNetworkConnected]), it modifies the request to use the cache exclusively
+     *   and allows stale responses up to 7 days old (max-stale=604800 seconds).
+     * - **onlineInterceptor:** This interceptor is responsible for caching responses when the device is online.
+     *   It adds a "Cache-Control" header to the response, instructing clients (including OkHttp's cache) to store the response
+     *   for 1 minute (max-age=60 seconds).
+     *
+     * @return An configured [OkHttpClient] instance.
+     * @see provideCache
+     * @see isNetworkConnected
+     */
     private fun provideClient(): OkHttpClient {
         val cache = provideCache()
 
