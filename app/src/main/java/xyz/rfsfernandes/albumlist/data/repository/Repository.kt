@@ -6,6 +6,7 @@ import xyz.rfsfernandes.albumlist.data.local.entities.AlbumEntity
 import xyz.rfsfernandes.albumlist.data.util.Resource
 
 interface Repository {
+    suspend fun hasAnyAlbum(): Boolean
     fun getAlbums(): PagingSource<Int, AlbumEntity>
-    suspend fun refreshAlbums(): Flow<Resource<Unit>>
+    fun refreshAlbums(): Flow<Resource<Unit>>
 }

@@ -1,4 +1,4 @@
-package xyz.rfsfernandes.albumlist.data.network
+package xyz.rfsfernandes.albumlist.network
 
 import kotlinx.coroutines.flow.Flow
 

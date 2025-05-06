@@ -7,7 +7,7 @@ import xyz.rfsfernandes.albumlist.data.util.Resource
 class RefreshAlbumsUseCase(
     private val repository: Repository
 ) {
-    suspend operator fun invoke(): Flow<Resource<Unit>> {
+    operator fun invoke(): Flow<Resource<Unit>> {
         return repository.refreshAlbums()
     }
 }

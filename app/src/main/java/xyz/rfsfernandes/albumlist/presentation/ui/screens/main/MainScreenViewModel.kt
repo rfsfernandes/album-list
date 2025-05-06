@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import xyz.rfsfernandes.albumlist.R
-import xyz.rfsfernandes.albumlist.data.network.ConnectivityObserver
+import xyz.rfsfernandes.albumlist.network.ConnectivityObserver
 import xyz.rfsfernandes.albumlist.data.remote.RemoteException
 import xyz.rfsfernandes.albumlist.data.util.CacheReason
 import xyz.rfsfernandes.albumlist.data.util.Resource
@@ -29,25 +30,26 @@ class MainScreenViewModel(
     private val refreshAlbumsUseCase: RefreshAlbumsUseCase,
 ) : ViewModel() {
 
+
     private val _viewState = MutableStateFlow(MainScreenViewState())
     val viewState = _viewState.asStateFlow()
 
-    init {
-        viewModelScope.launch {
+    fun initialize(scope: CoroutineScope = viewModelScope) {
+        scope.launch {
             _viewState.update {
                 _viewState.value.copy(
-                    albums = getAlbumListUseCase().cachedIn(this)
+                    albums = getAlbumListUseCase().cachedIn(scope)
                         .map { it.map { it.toDataModel() } }
                 )
             }
         }
 
-        viewModelScope.launch {
+        scope.launch {
             observeNetworkStateUseCase()
                 .debounce(5.seconds) // Just in case network flickers
                 .collect { status ->
                     if (status == ConnectivityObserver.Status.Available) {
-                        fetchAlbums()
+                        fetchAlbums(scope)
                     }
 
                     _viewState.update {
@@ -59,8 +61,8 @@ class MainScreenViewModel(
         }
     }
 
-    private fun fetchAlbums() {
-        viewModelScope.launch {
+    fun fetchAlbums(scope: CoroutineScope = viewModelScope) {
+        scope.launch {
             refreshAlbumsUseCase().collect { result ->
                 _viewState.update {
                     _viewState.value.copy(
@@ -84,13 +86,11 @@ class MainScreenViewModel(
                                 }
                             }
 
-                            is Resource.Success<Unit> -> {
-                                null
-                            }
+                            is Resource.Success<Unit>,
+                            is Resource.Default<Unit> -> null
                         }
                     )
                 }
-
             }
         }
     }

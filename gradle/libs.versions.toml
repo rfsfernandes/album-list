@@ -16,8 +16,6 @@ coil = "2.1.0"
 paging = "3.3.6"
 lifecycle = "2.8.7"
 serialization = "1.6.3"
-mockito = "4.6.1"
-mockito-kotlin = "4.1.0"
 kotlinx-coroutines = "1.9.0"
 turbine = "1.2.0"
 mockk = "1.13.17"
@@ -59,9 +57,6 @@ okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-i
 room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
-mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
-mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockito" }
-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }

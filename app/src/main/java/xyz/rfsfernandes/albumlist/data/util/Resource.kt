@@ -12,4 +12,6 @@ sealed class Resource<T>(
 
     class CachedSuccess<T>(data: T? = null, val cacheReason: CacheReason? = null) :
         Resource<T>(data)
+
+    class Default<T>(data: T? = null) : Resource<T>(data)
 }

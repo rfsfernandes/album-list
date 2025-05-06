@@ -47,6 +47,11 @@ android {
     buildFeatures {
         compose = true
     }
+    packaging {
+        resources {
+            excludes += "META-INF/*.md"
+        }
+    }
 }
 
 dependencies {
@@ -69,17 +74,15 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // Testing
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockito.kotlin)
-    testImplementation(libs.mockito.inline)
     testImplementation(libs.kotlinx.coroutines.test)
-    // Unit tests
+    testImplementation(libs.androidx.paging.common)
     testImplementation(libs.turbine)
     testImplementation(libs.mockk.android)
     testImplementation(libs.mockk.agent)
     androidTestImplementation(libs.turbine)
     androidTestImplementation(libs.mockk.android)
     androidTestImplementation(libs.mockk.agent)
+//    androidTestImplementation(libs.mockito.inline)
 
     // Room
     implementation(libs.room)

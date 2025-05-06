@@ -1,4 +1,4 @@
-package xyz.rfsfernandes.albumlist.data.network
+package xyz.rfsfernandes.albumlist.network
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,11 +12,10 @@ import kotlinx.coroutines.flow.onEach
 class NetworkManager(
     private val networkConnectivityObserver: NetworkConnectivityObserver,
 ) {
-    val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    var coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     private val _networkStatus = MutableStateFlow(ConnectivityObserver.Status.Unavailable)
     val networkStatus: StateFlow<ConnectivityObserver.Status> = _networkStatus
-
 
     init {
         networkConnectivityObserver.observe().onEach {

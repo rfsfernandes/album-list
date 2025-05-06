@@ -11,8 +11,8 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import xyz.rfsfernandes.albumlist.BuildConfig
 import xyz.rfsfernandes.albumlist.data.local.AppDatabase
-import xyz.rfsfernandes.albumlist.data.network.NetworkConnectivityObserver
-import xyz.rfsfernandes.albumlist.data.network.NetworkManager
+import xyz.rfsfernandes.albumlist.network.NetworkConnectivityObserver
+import xyz.rfsfernandes.albumlist.network.NetworkManager
 import xyz.rfsfernandes.albumlist.data.remote.RetrofitBuilder
 import xyz.rfsfernandes.albumlist.data.repository.Repository
 import xyz.rfsfernandes.albumlist.data.repository.RepositoryImpl

@@ -2,6 +2,7 @@ package xyz.rfsfernandes.albumlist.data.repository
 
 import androidx.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import xyz.rfsfernandes.albumlist.data.local.LeBonCoinDAO
 import xyz.rfsfernandes.albumlist.data.local.entities.AlbumEntity
@@ -15,14 +16,17 @@ class RepositoryImpl(
     private val leBonCoinService: LeBonCoinService,
     private val leBonCoinDAO: LeBonCoinDAO,
 ) : Repository {
+
+    override suspend fun hasAnyAlbum(): Boolean = leBonCoinDAO.hasAnyAlbum()
+
     override fun getAlbums(): PagingSource<Int, AlbumEntity> = leBonCoinDAO.albumsPagingSource()
 
-    override suspend fun refreshAlbums(): Flow<Resource<Unit>> = flow {
-        val hasAnyAlbum = leBonCoinDAO.hasAnyAlbum()
+    override fun refreshAlbums(): Flow<Resource<Unit>> = flow {
+        val hasAnyAlbum = hasAnyAlbum()
         if (hasAnyAlbum) emit(Resource.CachedSuccess(cacheReason = CacheReason.FROM_DB))
         try {
             val response = leBonCoinService.getAlbums()
-            if (response.isSuccessful && response.body() != null) {
+            if (response.isSuccessful) {
                 response.body()?.let { body ->
                     val albums = body.map { it.toEntity() }
                     val existingIds = leBonCoinDAO.getAllIds()

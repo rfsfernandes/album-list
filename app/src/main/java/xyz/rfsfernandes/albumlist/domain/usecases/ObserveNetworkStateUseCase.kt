@@ -1,8 +1,8 @@
 package xyz.rfsfernandes.albumlist.domain.usecases
 
 import kotlinx.coroutines.flow.StateFlow
-import xyz.rfsfernandes.albumlist.data.network.ConnectivityObserver
-import xyz.rfsfernandes.albumlist.data.network.NetworkManager
+import xyz.rfsfernandes.albumlist.network.ConnectivityObserver
+import xyz.rfsfernandes.albumlist.network.NetworkManager
 
 class ObserveNetworkStateUseCase(
     private val networkManager: NetworkManager
